@@ -12,24 +12,51 @@
 <body>
     <!-- Preloader Start -->
     <div id="preloader">
-        <div class="preloader-logo">
-            <span></span>
+        <div class="preloader-content">
+            <div class="orbital-system">
+                <div class="orbit orbit-1"></div>
+                <div class="orbit orbit-2"></div>
+                <div class="orbit orbit-3"></div>
+                <div class="central-core"></div>
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
+                <div class="particle particle-4"></div>
+            </div>
+            <div class="preloader-text">
+                <span class="letter">y</span>
+                <span class="letter">u</span>
+                <span class="letter">k</span>
+                <span class="letter">i</span>
+                <span class="letter">e</span>
+            </div>
         </div>
-        <div class="preloader-text">yukie</div>
     </div>
     <!-- Preloader End -->
 
     <!-- Видео фон -->
     <video id="videoBackground" autoplay muted loop playsinline></video>
     
-    <div class="stars-container" id="starsContainer"></div>
+    <div class="particles-container" id="particlesContainer">
+        <div class="particle-layer layer-1"></div>
+        <div class="particle-layer layer-2"></div>
+        <div class="particle-layer layer-3"></div>
+    </div>
     
     <div class="favorite-container">
-        <div class="favorite-btn" id="favoriteBtn"></div>
+        <div class="favorite-btn" id="favoriteBtn">
+            <div class="heart-icon"></div>
+        </div>
         <div class="like-counter" id="likeCounter">0</div>
     </div>
     
-    <div class="secret-btn" id="secretBtn"></div>
+    <div class="secret-btn" id="secretBtn">
+        <div class="secret-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
@@ -141,6 +168,7 @@
     
     <div class="container">
         <div class="logo-container">
+            <div class="logo-glow"></div>
             <img id="logoImg" class="logo-img" src="" alt="Логотип">
         </div>
         <h1 id="mainTitle">yukie</h1>
@@ -155,7 +183,9 @@
     </div>
     
     <div class="star-container">
-        <a href="https://thecatapi.com/" target="_blank" class="star"></a>
+        <a href="https://thecatapi.com/" target="_blank" class="star">
+            <div class="star-inner"></div>
+        </a>
     </div>
 
     <div class="text-format-menu" id="textFormatMenu">
@@ -193,46 +223,57 @@
         const database = firebase.database();
 
         document.addEventListener('DOMContentLoaded', () => {
-            const starsContainer = document.getElementById('starsContainer');
-            const starCount = 30; // Уменьшено для мобильных устройств
-            
-            for (let i = 0; i < starCount; i++) {
-                createStar();
-            }
-            
-            function createStar() {
-                const star = document.createElement('div');
-                star.className = 'star-particle';
-                
-                const size = Math.random() * 2 + 1; // Уменьшен размер звезд
-                const startX = Math.random() * window.innerWidth;
-                const startY = Math.random() * window.innerHeight;
-                const endX = (Math.random() - 0.5) * 200; // Уменьшена амплитуда движения
-                const endY = (Math.random() - 0.5) * 200;
-                const duration = 3 + Math.random() * 5; // Уменьшена длительность
-                const delay = Math.random() * 3;
-                const opacity = 0.2 + Math.random() * 0.6; // Уменьшена прозрачность
-                
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${startX}px`;
-                star.style.top = `${startY}px`;
-                star.style.opacity = opacity;
-                star.style.setProperty('--tx', `${endX}px`);
-                star.style.setProperty('--ty', `${endY}px`);
-                star.style.animationDuration = `${duration}s`;
-                star.style.animationDelay = `${delay}s`;
-                
-                starsContainer.appendChild(star);
-                
-                star.addEventListener('animationend', () => {
-                    star.remove();
-                    createStar();
-                });
-            }
-
+            // Инициализация частиц
+            initParticles();
             loadSavedData();
         });
+
+        function initParticles() {
+            const layers = document.querySelectorAll('.particle-layer');
+            
+            layers.forEach((layer, index) => {
+                const particleCount = index === 0 ? 40 : (index === 1 ? 25 : 15);
+                const sizeMultiplier = index === 0 ? 1 : (index === 1 ? 1.5 : 2);
+                const durationMultiplier = index === 0 ? 1 : (index === 1 ? 1.5 : 2);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    createParticle(layer, sizeMultiplier, durationMultiplier);
+                }
+            });
+            
+            function createParticle(container, sizeMultiplier, durationMultiplier) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = (Math.random() * 2 + 1) * sizeMultiplier;
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                const endX = (Math.random() - 0.5) * 40;
+                const endY = (Math.random() - 0.5) * 40;
+                const duration = (3 + Math.random() * 5) * durationMultiplier;
+                const delay = Math.random() * 5;
+                const opacity = 0.1 + Math.random() * 0.4;
+                const hue = Math.random() * 60 + 200; // сине-фиолетовый диапазон
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${startX}%`;
+                particle.style.top = `${startY}%`;
+                particle.style.opacity = opacity;
+                particle.style.backgroundColor = `hsl(${hue}, 70%, 70%)`;
+                particle.style.setProperty('--tx', `${endX}vw`);
+                particle.style.setProperty('--ty', `${endY}vh`);
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+                
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                    createParticle(container, sizeMultiplier, durationMultiplier);
+                });
+            }
+        }
 
         // Основные элементы DOM
         const secretBtn = document.getElementById('secretBtn');
@@ -839,6 +880,3 @@
     </script>
 </body>
 </html>
-
-
-
