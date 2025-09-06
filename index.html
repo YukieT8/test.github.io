@@ -2,329 +2,17 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yukie - Прелоадер</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Стили для улучшенного прелоадера */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1.2s ease-in-out, visibility 1.2s;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .preloader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .orbital-system {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            margin-bottom: 40px;
-        }
-
-        .orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border: 1px solid rgba(162, 82, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .orbit-1 {
-            width: 100%;
-            height: 100%;
-            animation: orbit-rotate 14s linear infinite;
-        }
-
-        .orbit-2 {
-            width: 70%;
-            height: 70%;
-            animation: orbit-rotate 10s linear infinite reverse;
-        }
-
-        .orbit-3 {
-            width: 40%;
-            height: 40%;
-            animation: orbit-rotate 8s linear infinite;
-        }
-
-        .central-core {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(145deg, #a252ff, #52a8ff);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 20px #a252ff, 0 0 40px #52a8ff;
-            animation: core-pulse 3s ease-in-out infinite alternate;
-        }
-
-        .particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #52a8ff;
-            border-radius: 50%;
-            animation: particle-float 5s ease-in-out infinite;
-        }
-
-        .particle-1 {
-            top: 10%;
-            left: 50%;
-            animation-delay: 0s;
-        }
-
-        .particle-2 {
-            top: 80%;
-            left: 20%;
-            animation-delay: 1s;
-        }
-
-        .particle-3 {
-            top: 30%;
-            left: 85%;
-            animation-delay: 2s;
-        }
-
-        .particle-4 {
-            top: 65%;
-            left: 65%;
-            animation-delay: 3s;
-        }
-
-        .preloader-text {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .preloader-text .letter {
-            font-size: 2.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 0 10px rgba(162, 82, 255, 0.5);
-            animation: letter-glitch 3s infinite;
-        }
-
-        .preloader-text .letter:nth-child(1) { animation-delay: 0.1s; }
-        .preloader-text .letter:nth-child(2) { animation-delay: 0.2s; }
-        .preloader-text .letter:nth-child(3) { animation-delay: 0.3s; }
-        .preloader-text .letter:nth-child(4) { animation-delay: 0.4s; }
-        .preloader-text .letter:nth-child(5) { animation-delay: 0.5s; }
-
-        .progress-container {
-            width: 260px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #a252ff, #52a8ff);
-            border-radius: 10px;
-            animation: progress-loading 4s ease-in-out;
-            box-shadow: 0 0 10px rgba(162, 82, 255, 0.7);
-        }
-
-        .loading-text {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            letter-spacing: 1px;
-        }
-
-        /* Анимации */
-        @keyframes orbit-rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes core-pulse {
-            0% { 
-                transform: translate(-50%, -50%) scale(1);
-                box-shadow: 0 0 20px #a252ff, 0 0 40px #52a8ff;
-            }
-            100% { 
-                transform: translate(-50%, -50%) scale(1.2);
-                box-shadow: 0 0 30px #a252ff, 0 0 60px #52a8ff;
-            }
-        }
-
-        @keyframes particle-float {
-            0%, 100% { 
-                transform: translateY(0) scale(1);
-                opacity: 0.7;
-            }
-            50% { 
-                transform: translateY(-20px) scale(1.2);
-                opacity: 1;
-            }
-        }
-
-        @keyframes letter-glitch {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                color: rgba(255, 255, 255, 0.9);
-                text-shadow: 0 0 10px rgba(162, 82, 255, 0.5);
-            }
-            25% {
-                transform: translateY(-5px) scale(1.1);
-                color: rgba(162, 82, 255, 0.9);
-                text-shadow: 0 0 15px rgba(82, 168, 255, 0.7);
-            }
-            50% {
-                transform: translateY(0) scale(0.95);
-                color: rgba(255, 255, 255, 0.9);
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            }
-            75% {
-                transform: translateY(5px) scale(1.05);
-                color: rgba(82, 168, 255, 0.9);
-                text-shadow: 0 0 15px rgba(162, 82, 255, 0.7);
-            }
-        }
-
-        @keyframes progress-loading {
-            0% { width: 0%; }
-            70% { width: 90%; }
-            100% { width: 100%; }
-        }
-
-        /* Контент страницы */
-        .content {
-            padding: 40px 20px;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .content.visible {
-            opacity: 1;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 15px rgba(162, 82, 255, 0.5);
-            background: linear-gradient(45deg, #fff, #a252ff, #52a8ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .orbital-system {
-                width: 130px;
-                height: 130px;
-            }
-            
-            .preloader-text .letter {
-                font-size: 2rem;
-            }
-            
-            .progress-container {
-                width: 220px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            p {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yukie</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Прелоадер -->
+    <!-- Preloader Start -->
     <div id="preloader">
         <div class="preloader-content">
-            <div class="preloader-text">
-                <span class="letter">y</span>
-                <span class="letter">u</span>
-                <span class="letter">k</span>
-                <span class="letter">i</span>
-                <span class="letter">e</span>
-            </div>
-            
             <div class="orbital-system">
                 <div class="orbit orbit-1"></div>
                 <div class="orbit orbit-2"></div>
@@ -335,57 +23,859 @@
                 <div class="particle particle-3"></div>
                 <div class="particle particle-4"></div>
             </div>
-            
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
+            <div class="preloader-text">
+                <span class="letter">y</span>
+                <span class="letter">u</span>
+                <span class="letter">k</span>
+                <span class="letter">i</span>
+                <span class="letter">e</span>
             </div>
-            
-            <div class="loading-text">Загрузка...</div>
         </div>
     </div>
+    <!-- Preloader End -->
 
-    <!-- Основной контент -->
-    <div class="content" id="mainContent">
-        <h1>Добро пожаловать на Yukie</h1>
-        <p>После завершения загрузки прелоадер плавно исчезает, открывая этот контент.</p>
-        <button class="btn" onclick="showPreloader()">Показать прелоадер снова</button>
+    <!-- Видео фон -->
+    <video id="videoBackground" autoplay muted loop playsinline></video>
+    
+    <div class="particles-container" id="particlesContainer">
+        <div class="particle-layer layer-1"></div>
+        <div class="particle-layer layer-2"></div>
+        <div class="particle-layer layer-3"></div>
+    </div>
+    
+    <div class="favorite-container">
+        <div class="favorite-btn" id="favoriteBtn">
+            <div class="heart-icon"></div>
+        </div>
+        <div class="like-counter" id="likeCounter">0</div>
+    </div>
+    
+    <div class="secret-btn" id="secretBtn">
+        <div class="secret-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div id="codeInputContainer">
+                <h3 class="modal-title" id="modalTitle">Введите секретный код</h3>
+                <div class="input-group">
+                    <label for="secretCode">Код доступа:</label>
+                    <input type="password" id="secretCode" placeholder="Введите код">
+                </div>
+                <div class="modal-buttons">
+                    <button class="modal-btn primary" id="submitCode">Подтвердить</button>
+                    <button class="modal-btn secondary" id="cancelModal">Отмена</button>
+                </div>
+            </div>
+            
+            <div id="tabsContainer" style="display: none;">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="edit">Редактирование</button>
+                    <button class="tab-btn" data-tab="links">Кнопки</button>
+                </div>
+                
+                <div class="tab-content active" id="editTab">
+                    <h3 class="modal-title">Редактирование контента</h3>
+                    
+                    <div class="logo-upload-container">
+                        <div class="logo-preview">
+                            <img id="logoPreview" class="logo-preview-img" src="" alt="Логотип">
+                        </div>
+                        <label for="logoUpload" class="upload-btn">Выбрать логотип</label>
+                        <input type="file" id="logoUpload" accept="image/*">
+                        <button class="remove-logo-btn" id="removeLogoBtn">Удалить логотип</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="editTitle">Заголовок:</label>
+                        <input type="text" id="editTitle" value="yukie">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Стиль шрифта:</label>
+                        <select id="fontFamily" class="font-family-select">
+                            <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="'Courier New', monospace">Courier New</option>
+                            <option value="Georgia, serif">Georgia</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Начертание:</label>
+                        <div class="font-style-controls">
+                            <button id="boldBtn" class="font-style-btn">Жирный</button>
+                            <button id="italicBtn" class="font-style-btn">Курсив</button>
+                            <button id="underlineBtn" class="font-style-btn">Подчеркнутый</button>
+                            <button id="strikeBtn" class="font-style-btn">Зачеркнутый</button>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Текстура текста:</label>
+                        <div class="texture-upload-container">
+                            <div class="texture-preview" id="texturePreview"></div>
+                            <label for="textureUpload" class="upload-btn">Выбрать текстуру</label>
+                            <input type="file" id="textureUpload" accept="image/*,video/*">
+                            <button class="remove-texture-btn" id="removeTextureBtn">Удалить текстуру</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Блок для видео-фона -->
+                    <div class="input-group">
+                        <label for="videoBgUrl">Видео фон (ссылка на MP4):</label>
+                        <input type="text" id="videoBgUrl" placeholder="https://example.com/background.mp4">
+                        <button id="testVideoBtn" class="upload-btn" style="margin-top: 10px;">Проверить видео</button>
+                        <button id="removeVideoBtn" class="remove-texture-btn" style="margin-top: 10px;">Удалить видео</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="editInfoTitle">Заголовок информации:</label>
+                        <input type="text" id="editInfoTitle" value="чо">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="editInfoText">Текст информации (используйте [текст](ссылка) для создания ссылок):</label>
+                        <textarea id="editInfoText">.</textarea>
+                    </div>
+                    
+                    <div class="modal-buttons" style="margin-top: 1.5rem;">
+                        <button class="modal-btn primary" id="saveChanges">Сохранить</button>
+                        <button class="modal-btn secondary" id="cancelEdit">Отмена</button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="linksTab">
+                    <h3 class="modal-title">Управление кнопками</h3>
+                    <div id="linksContainer">
+                        <!-- Здесь будут динамически добавляться кнопки -->
+                    </div>
+                    <button class="add-link-btn" id="addLinkBtn">+ Добавить новую кнопку</button>
+                    
+                    <div class="modal-buttons" style="margin-top: 1.5rem;">
+                        <button class="modal-btn primary" id="saveLinks">Сохранить кнопки</button>
+                        <button class="modal-btn secondary" id="cancelLinks">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <img id="logoImg" class="logo-img" src="" alt="Логотип">
+        </div>
+        <h1 id="mainTitle">yukie</h1>
+        <div class="links" id="linksList">
+            <!-- Кнопки будут добавляться сюда динамически -->
+        </div>
+    </div>
+    
+    <div class="info-block">
+        <h2 id="infoTitle">чо</h2>
+        <p id="infoText">.</p>
+    </div>
+    
+    <div class="star-container">
+        <a href="https://thecatapi.com/" target="_blank" class="star">
+            <div class="star-inner"></div>
+        </a>
+    </div>
+
+    <div class="text-format-menu" id="textFormatMenu">
+        <div class="text-format-btn" data-style="bold">B</div>
+        <div class="text-format-btn" data-style="italic">I</div>
+        <div class="text-format-btn" data-style="underline">U</div>
+        <div class="text-format-btn" data-style="strike">S</div>
     </div>
 
     <script>
-        // Функция для скрытия прелоадера
-        function hidePreloader() {
+        // Preloader logic
+        window.onload = function() {
             const preloader = document.getElementById('preloader');
-            const content = document.getElementById('mainContent');
-            
-            preloader.classList.add('hidden');
-            content.classList.add('visible');
-        }
-
-        // Функция для показа прелоадера
-        function showPreloader() {
-            const preloader = document.getElementById('preloader');
-            const content = document.getElementById('mainContent');
-            const progressBar = document.getElementById('progressBar');
-            
-            preloader.classList.remove('hidden');
-            content.classList.remove('visible');
-            
-            // Сброс и перезапуск анимации прогресс-бара
-            progressBar.style.width = '0%';
+            // Add a longer delay for the new animation to complete
             setTimeout(() => {
-                progressBar.style.animation = 'none';
-                void progressBar.offsetWidth; // Перезапуск анимации
-                progressBar.style.animation = 'progress-loading 4s ease-in-out';
-            }, 10);
+                if (preloader) {
+                    preloader.classList.add('hidden');
+                }
+            }, 4500); // 4.5 seconds delay
+        };
+
+        // Конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaQR0g1_T_0AEZRYWMCyFKF7jFI5MiLCs",
+            authDomain: "sample-firebase-ai-app-4c73c.firebaseapp.com",
+            databaseURL: "https://sample-firebase-ai-app-4c73c-default-rtdb.firebaseio.com",
+            projectId: "sample-firebase-ai-app-4c73c",
+            storageBucket: "sample-firebase-ai-app-4c73c.firebasestorage.app",
+            messagingSenderId: "125953273471",
+            appId: "1:125953273471:web:46ea159200d32ec529d94a"
+        };
+
+        // Инициализация Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Инициализация частиц
+            initParticles();
+            loadSavedData();
+        });
+
+        function initParticles() {
+            const layers = document.querySelectorAll('.particle-layer');
             
-            // Снова скрываем через 4 секунды
-            setTimeout(hidePreloader, 4000);
+            layers.forEach((layer, index) => {
+                const particleCount = index === 0 ? 40 : (index === 1 ? 25 : 15);
+                const sizeMultiplier = index === 0 ? 1 : (index === 1 ? 1.5 : 2);
+                const durationMultiplier = index === 0 ? 1 : (index === 1 ? 1.5 : 2);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    createParticle(layer, sizeMultiplier, durationMultiplier);
+                }
+            });
+            
+            function createParticle(container, sizeMultiplier, durationMultiplier) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = (Math.random() * 2 + 1) * sizeMultiplier;
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                const endX = (Math.random() - 0.5) * 40;
+                const endY = (Math.random() - 0.5) * 40;
+                const duration = (3 + Math.random() * 5) * durationMultiplier;
+                const delay = Math.random() * 5;
+                const opacity = 0.1 + Math.random() * 0.4;
+                const hue = Math.random() * 60 + 200; // сине-фиолетовый диапазон
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${startX}%`;
+                particle.style.top = `${startY}%`;
+                particle.style.opacity = opacity;
+                particle.style.backgroundColor = `hsl(${hue}, 70%, 70%)`;
+                particle.style.setProperty('--tx', `${endX}vw`);
+                particle.style.setProperty('--ty', `${endY}vh`);
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+                
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                    createParticle(container, sizeMultiplier, durationMultiplier);
+                });
+            }
         }
 
-        // Инициализация при загрузке страницы
-        window.addEventListener('load', function() {
-            // Скрываем прелоадер после загрузки
-            setTimeout(hidePreloader, 4000);
+        // Основные элементы DOM
+        const secretBtn = document.getElementById('secretBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const submitCode = document.getElementById('submitCode');
+        const cancelModal = document.getElementById('cancelModal');
+        const secretCodeInput = document.getElementById('secretCode');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const likeCounter = document.getElementById('likeCounter');
+        
+        // Элементы редактирования
+        const editTitle = document.getElementById('editTitle');
+        const editInfoTitle = document.getElementById('editInfoTitle');
+        const editInfoText = document.getElementById('editInfoText');
+        const saveChanges = document.getElementById('saveChanges');
+        const cancelEdit = document.getElementById('cancelEdit');
+        
+        // Элементы отображения
+        const mainTitle = document.getElementById('mainTitle');
+        const infoTitle = document.getElementById('infoTitle');
+        const infoText = document.getElementById('infoText');
+        const linksList = document.getElementById('linksList');
+        const logoImg = document.getElementById('logoImg');
+        
+        // Элементы логотипа
+        const logoUpload = document.getElementById('logoUpload');
+        const logoPreview = document.getElementById('logoPreview');
+        const removeLogoBtn = document.getElementById('removeLogoBtn');
+        
+        // Элементы стилей
+        const fontFamily = document.getElementById('fontFamily');
+        const boldBtn = document.getElementById('boldBtn');
+        const italicBtn = document.getElementById('italicBtn');
+        const underlineBtn = document.getElementById('underlineBtn');
+        const strikeBtn = document.getElementById('strikeBtn');
+        
+        // Элементы вкладок
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const editTab = document.getElementById('editTab');
+        const linksTab = document.getElementById('linksTab');
+        const codeInputContainer = document.getElementById('codeInputContainer');
+        const tabsContainer = document.getElementById('tabsContainer');
+        
+        // Элементы управления кнопками
+        const linksContainer = document.getElementById('linksContainer');
+        const addLinkBtn = document.getElementById('addLinkBtn');
+        const saveLinks = document.getElementById('saveLinks');
+        const cancelLinks = document.getElementById('cancelLinks');
+        
+        // Элементы текстуры текста
+        const textureUpload = document.getElementById('textureUpload');
+        const texturePreview = document.getElementById('texturePreview');
+        const removeTextureBtn = document.getElementById('removeTextureBtn');
+        
+        // Элементы видео-фона
+        const videoBackground = document.getElementById('videoBackground');
+        const videoBgUrlInput = document.getElementById('videoBgUrl');
+        const testVideoBtn = document.getElementById('testVideoBtn');
+        const removeVideoBtn = document.getElementById('removeVideoBtn');
+        
+        const SECRET_CODE = '1234';
+        
+        let currentFontStyles = {
+            bold: false,
+            italic: false,
+            underline: false,
+            strike: false,
+            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+            texture: ''
+        };
+        
+        let currentLinks = [];
+        let currentLogo = '';
+        let currentVideoBg = '';
+
+        // Функция для установки видео-фона
+        function setVideoBackground(url) {
+            if (url) {
+                videoBackground.src = url;
+                videoBackground.style.display = 'block';
+                
+                videoBackground.onerror = () => {
+                    console.error('Ошибка загрузки видео');
+                    alert('Не удалось загрузить видео. Проверьте ссылку и поддерживаемые форматы (MP4).');
+                    videoBackground.style.display = 'none';
+                };
+                
+                videoBackground.oncanplay = () => {
+                    videoBackground.play().catch(e => {
+                        console.log('Автовоспроизведение заблокировано:', e);
+                    });
+                };
+            } else {
+                videoBackground.style.display = 'none';
+                videoBackground.src = '';
+            }
+        }
+
+        // Загрузка данных
+        function loadSavedData() {
+            database.ref('pageData').once('value')
+                .then(snapshot => {
+                    const data = snapshot.val();
+                    if (data) {
+                        applyChanges(data);
+                        localStorage.setItem('yukiePageData', JSON.stringify(data));
+                    } else {
+                        const localData = localStorage.getItem('yukiePageData');
+                        if (localData) {
+                            applyChanges(JSON.parse(localData));
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки данных:', error);
+                    const localData = localStorage.getItem('yukiePageData');
+                    if (localData) {
+                        applyChanges(JSON.parse(localData));
+                    }
+                });
+                
+            loadLikeCounter();
+        }
+
+        // Сохранение данных в Firebase
+        function saveDataToFirebase(data) {
+            database.ref('pageData').set(data)
+                .then(() => {
+                    console.log('Данные успешно сохранены в Firebase');
+                    localStorage.setItem('yukiePageData', JSON.stringify(data));
+                })
+                .catch(error => {
+                    console.error('Ошибка сохранения в Firebase:', error);
+                });
+        }
+
+        // Применение изменений
+        function applyChanges(data) {
+            if (data.title) mainTitle.textContent = data.title;
+            if (data.infoTitle) infoTitle.textContent = data.infoTitle;
+            
+            if (data.infoText) {
+                const textWithLinks = data.infoText.replace(
+                    /\[([^\]]+)\]\(([^)]+)\)/g, 
+                    '<a href="$2" target="_blank">$1</a>'
+                );
+                infoText.innerHTML = textWithLinks;
+            }
+            
+            if (data.fontStyles) {
+                currentFontStyles = data.fontStyles;
+                fontFamily.value = currentFontStyles.fontFamily;
+                boldBtn.classList.toggle('active', currentFontStyles.bold);
+                italicBtn.classList.toggle('active', currentFontStyles.italic);
+                underlineBtn.classList.toggle('active', currentFontStyles.underline);
+                strikeBtn.classList.toggle('active', currentFontStyles.strike);
+                
+                if (currentFontStyles.texture) {
+                    texturePreview.style.backgroundImage = `url(${currentFontStyles.texture})`;
+                }
+                
+                applyFontStyles(currentFontStyles);
+            }
+            
+            if (data.links) {
+                currentLinks = data.links;
+                renderLinks();
+            }
+            
+            if (data.logo) {
+                currentLogo = data.logo;
+                logoImg.src = currentLogo;
+                logoPreview.src = currentLogo;
+            } else {
+                logoImg.src = '';
+                logoPreview.src = '';
+            }
+            
+            if (data.videoBg) {
+                currentVideoBg = data.videoBg;
+                setVideoBackground(currentVideoBg);
+            } else {
+                setVideoBackground('');
+            }
+        }
+
+        // Применение стилей шрифта
+        function applyFontStyles(styles) {
+            document.body.style.fontFamily = styles.fontFamily;
+            
+            const elements = [mainTitle, infoTitle, infoText];
+            
+            elements.forEach(el => {
+                el.style.fontWeight = styles.bold ? 'bold' : 'normal';
+                el.style.fontStyle = styles.italic ? 'italic' : 'normal';
+                el.style.textDecoration = styles.underline ? 'underline' : 'none';
+                el.style.textDecoration = styles.strike ? 'line-through' : el.style.textDecoration;
+                
+                if (styles.texture) {
+                    el.classList.add('text-with-texture');
+                    el.style.backgroundImage = `url(${styles.texture})`;
+                } else {
+                    el.classList.remove('text-with-texture');
+                    el.style.backgroundImage = '';
+                    el.style.color = 'white';
+                }
+            });
+        }
+
+        // Отрисовка кнопок
+        function renderLinks() {
+            linksList.innerHTML = '';
+            currentLinks.forEach((link, index) => {
+                const linkEl = document.createElement('a');
+                linkEl.className = 'link';
+                linkEl.href = link.url;
+                linkEl.target = '_blank';
+                
+                if (link.icon) {
+                    linkEl.innerHTML = `<img class="link-icon" src="${link.icon}" alt="${link.text}"><span>${link.text}</span>`;
+                } else {
+                    linkEl.innerHTML = `<span>${link.text}</span>`;
+                }
+                
+                linksList.appendChild(linkEl);
+            });
+        }
+
+        // Отрисовка формы редактирования кнопок
+        function renderLinksEditor() {
+            linksContainer.innerHTML = '';
+            currentLinks.forEach((link, index) => {
+                const linkItem = document.createElement('div');
+                linkItem.className = 'link-item';
+                linkItem.innerHTML = `
+                    <div class="input-group">
+                        <label>Текст кнопки:</label>
+                        <input type="text" class="link-text" value="${link.text}" placeholder="Текст кнопки">
+                    </div>
+                    <div class="input-group">
+                        <label>Ссылка:</label>
+                        <input type="text" class="link-url" value="${link.url}" placeholder="https://example.com">
+                    </div>
+                    <div class="input-group">
+                        <label>URL иконки (необязательно):</label>
+                        <input type="text" class="link-icon" value="${link.icon || ''}" placeholder="https://example.com/icon.png">
+                    </div>
+                    <button class="remove-link-btn" data-index="${index}">Удалить</button>
+                `;
+                linksContainer.appendChild(linkItem);
+            });
+        }
+
+        // Загрузка логотипа
+        logoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    currentLogo = event.target.result;
+                    logoPreview.src = currentLogo;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Удаление логотипа
+        removeLogoBtn.addEventListener('click', function() {
+            currentLogo = '';
+            logoPreview.src = '';
+            logoUpload.value = '';
+        });
+
+        // Загрузка текстуры (фото/гиф/видео)
+        textureUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Проверяем тип файла
+            if (file.type.startsWith('image/')) {
+                // Обработка изображений (JPG, PNG, GIF)
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    currentFontStyles.texture = event.target.result;
+                    texturePreview.style.backgroundImage = `url(${currentFontStyles.texture})`;
+                    applyFontStyles(currentFontStyles);
+                };
+                reader.readAsDataURL(file);
+            } else if (file.type.startsWith('video/')) {
+                // Обработка видео (MP4)
+                const video = document.createElement('video');
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                video.src = URL.createObjectURL(file);
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                
+                video.onloadedmetadata = function() {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    
+                    // Создаем миниатюру из первого кадра
+                    video.currentTime = 0;
+                    
+                    video.onseeked = function() {
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        const thumbnail = canvas.toDataURL('image/png');
+                        
+                        // Создаем видео-текстуру
+                        const videoTexture = document.createElement('video');
+                        videoTexture.src = URL.createObjectURL(file);
+                        videoTexture.muted = true;
+                        videoTexture.loop = true;
+                        videoTexture.playsInline = true;
+                        videoTexture.style.display = 'none';
+                        document.body.appendChild(videoTexture);
+                        
+                        // Запускаем видео
+                        videoTexture.play().catch(e => console.log('Автовоспроизведение заблокировано:', e));
+                        
+                        // Обновляем текстуру каждые 100мс
+                        setInterval(() => {
+                            ctx.drawImage(videoTexture, 0, 0, canvas.width, canvas.height);
+                            currentFontStyles.texture = canvas.toDataURL('image/png');
+                            applyFontStyles(currentFontStyles);
+                        }, 100);
+                        
+                        // Показываем превью
+                        texturePreview.style.backgroundImage = `url(${thumbnail})`;
+                    };
+                    
+                    video.currentTime = 0.1; // Перематываем немного вперед для корректного отображения
+                };
+            } else {
+                alert('Пожалуйста, выберите изображение (JPG, PNG, GIF) или видео (MP4)');
+            }
+        });
+
+        // Удаление текстуры
+        removeTextureBtn.addEventListener('click', function() {
+            currentFontStyles.texture = '';
+            texturePreview.style.backgroundImage = 'none';
+            textureUpload.value = '';
+            applyFontStyles(currentFontStyles);
+        });
+
+        // Проверка видео-фона
+        testVideoBtn.addEventListener('click', function() {
+            const testUrl = videoBgUrlInput.value.trim();
+            if (testUrl) {
+                setVideoBackground(testUrl);
+            } else {
+                alert('Введите ссылку на видео');
+            }
+        });
+
+        // Удаление видео-фона
+        removeVideoBtn.addEventListener('click', function() {
+            videoBgUrlInput.value = '';
+            currentVideoBg = '';
+            setVideoBackground('');
+        });
+
+        // Обработчики событий
+        secretBtn.addEventListener('click', () => {
+            modalOverlay.classList.add('active');
+            secretCodeInput.focus();
+        });
+        
+        cancelModal.addEventListener('click', closeModal);
+        
+        submitCode.addEventListener('click', () => {
+            if (secretCodeInput.value === SECRET_CODE) {
+                codeInputContainer.style.display = 'none';
+                tabsContainer.style.display = 'block';
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                editTab.classList.remove('active');
+                linksTab.classList.remove('active');
+                
+                document.querySelector('.tab-btn[data-tab="edit"]').classList.add('active');
+                editTab.classList.add('active');
+                
+                editTitle.value = mainTitle.textContent;
+                editInfoTitle.value = infoTitle.textContent;
+                editInfoText.value = infoText.innerHTML.replace(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g, '[$2]($1)');
+                videoBgUrlInput.value = currentVideoBg;
+                
+                if (currentFontStyles.texture) {
+                    texturePreview.style.backgroundImage = `url(${currentFontStyles.texture})`;
+                } else {
+                    texturePreview.style.backgroundImage = 'none';
+                }
+            } else {
+                alert('Неверный код!');
+                secretCodeInput.value = '';
+            }
+        });
+        
+        saveChanges.addEventListener('click', () => {
+            const newData = {
+                title: editTitle.value,
+                infoTitle: editInfoTitle.value,
+                infoText: editInfoText.value,
+                fontStyles: currentFontStyles,
+                links: currentLinks,
+                logo: currentLogo,
+                videoBg: videoBgUrlInput.value.trim()
+            };
+            
+            currentVideoBg = videoBgUrlInput.value.trim();
+            
+            saveDataToFirebase(newData);
+            applyChanges(newData);
+            closeModal();
+            alert('Изменения сохранены! Они будут видны на всех устройствах.');
+        });
+        
+        cancelEdit.addEventListener('click', closeModal);
+        
+        favoriteBtn.addEventListener('click', () => {
+            try {
+                window.external.AddFavorite(location.href, document.title);
+            } catch (e) {
+                alert('Нажмите Ctrl+D чтобы добавить страницу в закладки');
+            }
+            
+            incrementLikeCounter();
+        });
+        
+        boldBtn.addEventListener('click', () => {
+            currentFontStyles.bold = !currentFontStyles.bold;
+            boldBtn.classList.toggle('active', currentFontStyles.bold);
+        });
+        
+        italicBtn.addEventListener('click', () => {
+            currentFontStyles.italic = !currentFontStyles.italic;
+            italicBtn.classList.toggle('active', currentFontStyles.italic);
+        });
+        
+        underlineBtn.addEventListener('click', () => {
+            currentFontStyles.underline = !currentFontStyles.underline;
+            underlineBtn.classList.toggle('active', currentFontStyles.underline);
+        });
+        
+        strikeBtn.addEventListener('click', () => {
+            currentFontStyles.strike = !currentFontStyles.strike;
+            strikeBtn.classList.toggle('active', currentFontStyles.strike);
+        });
+        
+        fontFamily.addEventListener('change', () => {
+            currentFontStyles.fontFamily = fontFamily.value;
+        });
+
+        // Управление кнопками
+        addLinkBtn.addEventListener('click', () => {
+            currentLinks.push({
+                text: 'Новая кнопка',
+                url: 'https://example.com',
+                icon: ''
+            });
+            renderLinksEditor();
+        });
+
+        linksContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-link-btn')) {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                currentLinks.splice(index, 1);
+                renderLinksEditor();
+            }
+        });
+
+        saveLinks.addEventListener('click', () => {
+            const linkItems = linksContainer.querySelectorAll('.link-item');
+            currentLinks = [];
+            
+            linkItems.forEach(item => {
+                const text = item.querySelector('.link-text').value;
+                const url = item.querySelector('.link-url').value;
+                const icon = item.querySelector('.link-icon').value;
+                
+                if (text && url) {
+                    currentLinks.push({
+                        text: text,
+                        url: url,
+                        icon: icon
+                    });
+                }
+            });
+            
+            const newData = {
+                title: mainTitle.textContent,
+                infoTitle: infoTitle.textContent,
+                infoText: infoText.innerHTML.replace(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g, '[$2]($1)'),
+                fontStyles: currentFontStyles,
+                links: currentLinks,
+                logo: currentLogo,
+                videoBg: currentVideoBg
+            };
+            
+            saveDataToFirebase(newData);
+            renderLinks();
+            document.querySelector('.tab-btn[data-tab="edit"]').click();
+            alert('Кнопки сохранены!');
+        });
+
+        cancelLinks.addEventListener('click', () => {
+            document.querySelector('.tab-btn[data-tab="edit"]').click();
+        });
+
+        // Переключение вкладок
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                editTab.classList.remove('active');
+                linksTab.classList.remove('active');
+                
+                btn.classList.add('active');
+                
+                if (tabId === 'edit') {
+                    editTab.classList.add('active');
+                } else if (tabId === 'links') {
+                    linksTab.classList.add('active');
+                    renderLinksEditor();
+                }
+            });
+        });
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            codeInputContainer.style.display = 'block';
+            tabsContainer.style.display = 'none';
+            secretCodeInput.value = '';
+        }
+        
+        // Счетчик избранного (синхронизируется через Firebase)
+        function incrementLikeCounter() {
+            database.ref('likeCounter').transaction(currentValue => {
+                return (currentValue || 0) + 1;
+            }).then(() => {
+                loadLikeCounter();
+            });
+        }
+        
+        function loadLikeCounter() {
+            database.ref('likeCounter').once('value').then(snapshot => {
+                const count = snapshot.val() || 0;
+                updateLikeCounter(count);
+            });
+        }
+        
+        function updateLikeCounter(count) {
+            let formattedCount = count;
+            if (count >= 1000000) {
+                formattedCount = (count / 1000000).toFixed(1) + 'M';
+            } else if (count >= 1000) {
+                formattedCount = (count / 1000).toFixed(1) + 'K';
+            }
+            
+            likeCounter.textContent = formattedCount;
+        }
+
+        // Закрытие модального окна при клике вне его
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+        
+        // Закрытие модального окна по ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Меню форматирования текста
+        document.addEventListener('selectionchange', () => {
+            const selection = window.getSelection();
+            if (!selection.isCollapsed) {
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+                
+                textFormatMenu.style.left = `${rect.left + window.scrollX}px`;
+                textFormatMenu.style.top = `${rect.top + window.scrollY - 40}px`;
+                textFormatMenu.classList.add('active');
+            } else {
+                textFormatMenu.classList.remove('active');
+            }
+        });
+
+        // Обработчики кнопок форматирования текста
+        document.querySelectorAll('.text-format-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const style = btn.dataset.style;
+                document.execCommand(style, false, null);
+                textFormatMenu.classList.remove('active');
+            });
         });
     </script>
 </body>
