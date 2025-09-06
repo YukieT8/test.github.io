@@ -22,110 +22,161 @@
     pointer-events: none;
 }
 
-.preloader-logo {
-    width: 120px;
-    height: 120px;
-    position: relative;
-    animation: fadeInElement 1s ease-in-out forwards;
+.preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.preloader-logo span {
-    content: '';
+.orbital-system {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 40px;
+}
+
+.orbit {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20%;
-    height: 20%;
-    background: #fff;
+    border: 1px solid rgba(162, 82, 255, 0.3);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #a252ff;
-    animation: core-pulse 2.5s infinite ease-in-out;
 }
 
-.preloader-logo::before,
-.preloader-logo::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+.orbit-1 {
     width: 100%;
     height: 100%;
+    animation: orbit-rotate 12s linear infinite;
+}
+
+.orbit-2 {
+    width: 70%;
+    height: 70%;
+    animation: orbit-rotate 8s linear infinite reverse;
+}
+
+.orbit-3 {
+    width: 40%;
+    height: 40%;
+    animation: orbit-rotate 6s linear infinite;
+}
+
+.central-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(145deg, #a252ff, #52a8ff);
     border-radius: 50%;
-    border: 2px solid transparent;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px #a252ff, 0 0 40px #52a8ff;
+    animation: core-pulse 2s ease-in-out infinite alternate;
 }
 
-.preloader-logo::before {
-    border-top-color: #a252ff;
-    border-bottom-color: #a252ff;
-    animation: rotate-cw 8s linear infinite, glow 2.5s infinite alternate;
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #52a8ff;
+    border-radius: 50%;
+    animation: particle-float 4s ease-in-out infinite;
 }
 
-.preloader-logo::after {
-    border-left-color: #52a8ff;
-    border-right-color: #52a8ff;
-    transform: scale(0.8);
-    animation: rotate-ccw 8s linear infinite, glow 2.5s infinite alternate-reverse;
+.particle-1 {
+    top: 10%;
+    left: 50%;
+    animation-delay: 0s;
+}
+
+.particle-2 {
+    top: 80%;
+    left: 20%;
+    animation-delay: 1s;
+}
+
+.particle-3 {
+    top: 30%;
+    left: 85%;
+    animation-delay: 2s;
+}
+
+.particle-4 {
+    top: 65%;
+    left: 65%;
+    animation-delay: 3s;
 }
 
 .preloader-text {
-    margin-top: 25px;
-    font-size: 1.8rem;
+    display: flex;
+    gap: 8px;
+}
+
+.preloader-text .letter {
+    font-size: 2.2rem;
     color: rgba(255, 255, 255, 0.8);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    letter-spacing: 4px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeInElement 1.5s ease-in-out 0.5s forwards;
-    opacity: 0;
+    text-shadow: 0 0 10px rgba(162, 82, 255, 0.5);
+    animation: letter-glitch 3s infinite;
 }
 
-.preloader-text::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: shimmer 3s infinite 1s;
-}
+.preloader-text .letter:nth-child(1) { animation-delay: 0.1s; }
+.preloader-text .letter:nth-child(2) { animation-delay: 0.2s; }
+.preloader-text .letter:nth-child(3) { animation-delay: 0.3s; }
+.preloader-text .letter:nth-child(4) { animation-delay: 0.4s; }
+.preloader-text .letter:nth-child(5) { animation-delay: 0.5s; }
 
-@keyframes fadeInElement {
-    to { opacity: 1; }
-}
-
-@keyframes rotate-cw {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes rotate-ccw {
-    from { transform: scale(0.8) rotate(0deg); }
-    to { transform: scale(0.8) rotate(-360deg); }
-}
-
-@keyframes glow {
-    from {
-        box-shadow: 0 0 8px #a252ff, 0 0 16px #a252ff, 0 0 24px #a252ff;
-    }
-    to {
-        box-shadow: 0 0 16px #52a8ff, 0 0 24px #52a8ff, 0 0 32px #52a8ff;
-    }
+@keyframes orbit-rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @keyframes core-pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(0.9); }
-    50% { transform: translate(-50%, -50%) scale(1.1); }
+    0% { 
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 20px #a252ff, 0 0 40px #52a8ff;
+    }
+    100% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow: 0 0 30px #a252ff, 0 0 60px #52a8ff;
+    }
 }
 
-@keyframes shimmer {
-    0% { left: -100%; }
-    50% { left: 100%; }
-    100% { left: 100%; }
+@keyframes particle-float {
+    0%, 100% { 
+        transform: translateY(0) scale(1);
+        opacity: 0.7;
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.2);
+        opacity: 1;
+    }
+}
+
+@keyframes letter-glitch {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 0 10px rgba(162, 82, 255, 0.5);
+    }
+    25% {
+        transform: translateY(-5px) scale(1.1);
+        color: rgba(162, 82, 255, 0.9);
+        text-shadow: 0 0 15px rgba(82, 168, 255, 0.7);
+    }
+    50% {
+        transform: translateY(0) scale(0.95);
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+    75% {
+        transform: translateY(5px) scale(1.05);
+        color: rgba(82, 168, 255, 0.9);
+        text-shadow: 0 0 15px rgba(162, 82, 255, 0.7);
+    }
 }
 /* --- Конец стилей для загрузчика --- */
-
 
 * {
     margin: 0;
@@ -159,33 +210,42 @@ body {
     display: none;
 }
 
-.stars-container {
+/* Частицы */
+.particles-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    overflow: hidden;
 }
 
-.star-particle {
+.particle-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.particle {
     position: absolute;
     background-color: white;
     border-radius: 50%;
     pointer-events: none;
-    animation: float linear infinite;
+    animation: particle-float linear infinite;
+    opacity: 0;
 }
 
-@keyframes float {
+@keyframes particle-float {
     0% {
         transform: translate(0, 0);
         opacity: 0;
     }
     10% {
-        opacity: 1;
+        opacity: 0.7;
     }
     90% {
-        opacity: 1;
+        opacity: 0.7;
     }
     100% {
         transform: translate(var(--tx), var(--ty));
@@ -196,20 +256,33 @@ body {
 .container {
     text-align: center;
     z-index: 10;
-    padding: 1.5rem;
+    padding: 2rem;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(162, 82, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
     max-width: 600px;
     margin-bottom: 20px;
+    animation: container-appear 1.5s ease-out;
+}
+
+@keyframes container-appear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .logo-container {
-    width: 120px;
-    height: 120px;
+    position: relative;
+    width: 140px;
+    height: 140px;
     margin: 0 auto 1.5rem;
     border-radius: 50%;
     overflow: hidden;
@@ -220,18 +293,55 @@ body {
     justify-content: center;
 }
 
+.logo-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(162, 82, 255, 0.3) 0%, transparent 70%);
+    animation: logo-glow-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow-pulse {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
 .logo-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: relative;
+    z-index: 2;
+    border-radius: 50%;
 }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    letter-spacing: 1px;
+    text-shadow: 0 0 15px rgba(162, 82, 255, 0.5);
+    letter-spacing: 2px;
     word-wrap: break-word;
+    background: linear-gradient(45deg, #fff, #a252ff, #52a8ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: title-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes title-glow {
+    0% {
+        text-shadow: 0 0 10px rgba(162, 82, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(82, 168, 255, 0.7), 0 0 30px rgba(162, 82, 255, 0.5);
+    }
 }
 
 .links {
@@ -249,18 +359,35 @@ h1 {
     color: white;
     text-decoration: none;
     font-size: 1rem;
-    padding: 0.8rem;
+    padding: 1rem;
     border-radius: 50px;
     transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
 }
 
 .link:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.link:hover::before {
+    left: 100%;
 }
 
 .link-icon {
@@ -268,47 +395,87 @@ h1 {
     height: 24px;
     margin-right: 10px;
     object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.link:hover .link-icon {
+    transform: scale(1.2) rotate(10deg);
 }
 
 .info-block {
     z-index: 10;
-    padding: 1.2rem;
+    padding: 1.5rem;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(162, 82, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
     max-width: 600px;
     margin-bottom: 20px;
     text-align: center;
+    animation: info-appear 2s ease-out;
+}
+
+@keyframes info-appear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .info-block h2 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(45deg, #fff, #a252ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .info-block p {
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .info-block a {
     color: #4dabf7;
     text-decoration: none;
     transition: color 0.3s;
+    position: relative;
+}
+
+.info-block a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #4dabf7;
+    transition: width 0.3s;
 }
 
 .info-block a:hover {
     color: #74c0fc;
-    text-decoration: underline;
+}
+
+.info-block a:hover::after {
+    width: 100%;
 }
 
 .star-container {
     position: fixed;
-    bottom: 15px;
+    bottom: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -316,31 +483,48 @@ h1 {
 }
 
 .star {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     position: relative;
-    animation: glow-star 1.5s ease-in-out infinite alternate;
     cursor: pointer;
     transition: transform 0.3s ease;
+}
+
+.star-inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: star-rotate 8s linear infinite;
+}
+
+.star:before {
+    content: "✧";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 45px;
+    color: white;
+    text-shadow: 0 0 5px #ffd700, 0 0 20px #ffaa00;
+    animation: star-glow 2s ease-in-out infinite alternate;
 }
 
 .star:hover {
     transform: scale(1.2);
 }
 
-.star:before {
-    content: "✧";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 35px;
-    text-align: center;
-    line-height: 35px;
+.star:hover:before {
+    animation: star-glow 0.5s ease-in-out infinite alternate;
 }
 
-@keyframes glow-star {
+@keyframes star-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes star-glow {
     0% { 
         color: white;
         text-shadow: 0 0 5px #ffd700, 0 0 20px #ffaa00;
@@ -353,54 +537,59 @@ h1 {
 
 .secret-btn {
     position: fixed;
-    top: 15px;
-    right: 15px;
-    width: 45px;
-    height: 45px;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 100;
     transition: all 0.5s ease;
-    opacity: 0.15;
+    opacity: 0.3;
 }
 
 .secret-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: scale(1.05);
-    opacity: 0.25;
+    background: rgba(162, 82, 255, 0.1);
+    transform: scale(1.1) rotate(90deg);
+    opacity: 0.7;
 }
 
 .secret-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.95) rotate(90deg);
 }
 
-.secret-btn::before {
-    content: "";
-    width: 18px;
-    height: 18px;
-    background: rgba(255, 255, 255, 0.3);
+.secret-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.secret-dots span {
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
 }
 
 .favorite-container {
     position: fixed;
-    top: 15px;
-    left: 15px;
+    top: 20px;
+    left: 20px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     z-index: 100;
 }
 
 .favorite-btn {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -410,38 +599,89 @@ h1 {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.favorite-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 85, 85, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .favorite-btn:hover {
-    background: rgba(255, 0, 0, 0.2);
+    background: rgba(255, 0, 0, 0.1);
     transform: scale(1.1);
+}
+
+.favorite-btn:hover::before {
+    opacity: 1;
 }
 
 .favorite-btn:active {
     transform: scale(0.95);
 }
 
-.favorite-btn::before {
-    content: "❤";
-    font-size: 22px;
-    color: #ff5555;
+.heart-icon {
+    width: 24px;
+    height: 24px;
+    background: #ff5555;
+    position: relative;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
+
+.heart-icon::before,
+.heart-icon::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: #ff5555;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart-icon::before {
+    top: -12px;
+    left: 0;
+}
+
+.heart-icon::after {
+    top: 0;
+    left: -12px;
+}
+
+.favorite-btn:hover .heart-icon {
+    transform: rotate(45deg) scale(1.2);
 }
 
 .like-counter {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 6px 12px;
+    padding: 8px 15px;
     border-radius: 50px;
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: all 0.3s ease;
 }
 
 .like-counter::before {
-    content: "✧.*";
+    content: "❤";
     color: #ff5555;
+}
+
+.like-counter:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 .modal-overlay {
@@ -469,73 +709,105 @@ h1 {
 
 .modal-content {
     background: rgba(0, 0, 0, 0.7);
-    border-radius: 15px;
-    padding: 1.5rem;
+    border-radius: 20px;
+    padding: 2rem;
     width: 100%;
     max-width: 500px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.4s ease, opacity 0.4s ease;
     margin: auto;
+    opacity: 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .modal-overlay.active .modal-content {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 .modal-title {
-    font-size: 1.3rem;
-    margin-bottom: 1.2rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
     text-align: center;
+    background: linear-gradient(45deg, #fff, #a252ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .input-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
 }
 
 .input-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .input-group input, .input-group textarea, .input-group select {
     width: 100%;
-    padding: 0.7rem;
-    border-radius: 8px;
+    padding: 0.8rem;
+    border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
     color: white;
     font-size: 0.9rem;
     font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+    outline: none;
+    border-color: rgba(162, 82, 255, 0.5);
+    box-shadow: 0 0 10px rgba(162, 82, 255, 0.3);
 }
 
 .input-group textarea {
-    min-height: 80px;
+    min-height: 100px;
     resize: vertical;
 }
 
 .modal-buttons {
     display: flex;
-    gap: 0.8rem;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
 .modal-btn {
     flex: 1;
     min-width: 120px;
-    padding: 0.7rem;
-    border-radius: 8px;
+    padding: 0.8rem;
+    border-radius: 10px;
     border: none;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.modal-btn:hover::before {
+    left: 100%;
 }
 
 .modal-btn.primary {
-    background: rgba(255, 255, 255, 0.9);
-    color: #000;
+    background: linear-gradient(45deg, #a252ff, #52a8ff);
+    color: white;
 }
 
 .modal-btn.secondary {
@@ -544,7 +816,12 @@ h1 {
 }
 
 .modal-btn:hover {
-    opacity: 0.8;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-btn:active {
+    transform: translateY(0);
 }
 
 .editor-container {
@@ -568,8 +845,8 @@ h1 {
 
 .editor-group input, .editor-group textarea, .editor-group select {
     width: 100%;
-    padding: 0.6rem;
-    border-radius: 6px;
+    padding: 0.7rem;
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -578,7 +855,7 @@ h1 {
 }
 
 .editor-group textarea {
-    min-height: 70px;
+    min-height: 80px;
     resize: vertical;
 }
 
@@ -594,14 +871,14 @@ h1 {
 
 .font-style-controls {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 1rem;
     flex-wrap: wrap;
 }
 
 .font-style-btn {
-    padding: 0.5rem 0.8rem;
-    border-radius: 5px;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
@@ -611,13 +888,14 @@ h1 {
 }
 
 .font-style-btn.active {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(162, 82, 255, 0.3);
+    border-color: rgba(162, 82, 255, 0.5);
 }
 
 .font-family-select {
     width: 100%;
-    padding: 0.6rem;
-    border-radius: 6px;
+    padding: 0.7rem;
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -628,16 +906,17 @@ h1 {
 .text-format-menu {
     position: fixed;
     background: rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 10px;
+    padding: 10px;
     display: flex;
-    gap: 5px;
+    gap: 8px;
     z-index: 1000;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .text-format-menu.active {
@@ -646,44 +925,57 @@ h1 {
 }
 
 .text-format-btn {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 6px;
     background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 .text-format-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(162, 82, 255, 0.3);
 }
 
 /* Стили для вкладок */
 .tabs {
     display: flex;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     overflow-x: auto;
 }
 
 .tab-btn {
-    padding: 0.7rem 1rem;
+    padding: 0.8rem 1.2rem;
     background: transparent;
     border: none;
     color: white;
     cursor: pointer;
     font-size: 0.9rem;
     transition: all 0.3s;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     white-space: nowrap;
+    position: relative;
 }
 
-.tab-btn.active {
-    border-bottom: 2px solid white;
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(45deg, #a252ff, #52a8ff);
+    transition: width 0.3s;
+}
+
+.tab-btn.active::after {
+    width: 100%;
 }
 
 .tab-content {
@@ -692,13 +984,25 @@ h1 {
 
 .tab-content.active {
     display: block;
+    animation: tab-fade 0.3s ease;
+}
+
+@keyframes tab-fade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .add-link-btn {
     margin-top: 1rem;
     width: 100%;
-    padding: 0.7rem;
-    border-radius: 8px;
+    padding: 0.8rem;
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px dashed rgba(255, 255, 255, 0.3);
     color: white;
@@ -708,22 +1012,29 @@ h1 {
 
 .add-link-btn:hover {
     background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .link-item {
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 1rem;
+    border-radius: 10px;
+    padding: 1.2rem;
     margin-bottom: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.link-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
 }
 
 .remove-link-btn {
     background: rgba(255, 0, 0, 0.2);
     border: 1px solid rgba(255, 0, 0, 0.3);
     color: #ff5555;
-    padding: 0.3rem 0.6rem;
-    border-radius: 5px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 0.8rem;
     margin-top: 0.5rem;
@@ -732,6 +1043,7 @@ h1 {
 
 .remove-link-btn:hover {
     background: rgba(255, 0, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 .logo-upload-container {
@@ -742,13 +1054,30 @@ h1 {
 }
 
 .logo-preview {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     overflow: hidden;
     margin-bottom: 1rem;
     border: 2px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.logo-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(162, 82, 255, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.logo-preview:hover::after {
+    opacity: 1;
 }
 
 .logo-preview-img {
@@ -758,11 +1087,11 @@ h1 {
 }
 
 .upload-btn {
-    padding: 0.6rem 1.2rem;
+    padding: 0.7rem 1.5rem;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s;
     text-align: center;
@@ -770,6 +1099,7 @@ h1 {
 
 .upload-btn:hover {
     background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 #logoUpload {
@@ -778,11 +1108,11 @@ h1 {
 
 .remove-logo-btn {
     margin-top: 0.5rem;
-    padding: 0.4rem 0.8rem;
+    padding: 0.5rem 1rem;
     background: rgba(255, 0, 0, 0.2);
     border: 1px solid rgba(255, 0, 0, 0.3);
     color: #ff5555;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 0.8rem;
     transition: all 0.3s;
@@ -790,6 +1120,7 @@ h1 {
 
 .remove-logo-btn:hover {
     background: rgba(255, 0, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 /* Стили для текстуры текста */
@@ -801,24 +1132,30 @@ h1 {
 }
 
 .texture-preview {
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
     overflow: hidden;
     margin-bottom: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.05);
     background-size: cover;
     background-position: center;
+    transition: all 0.3s;
+}
+
+.texture-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .remove-texture-btn {
     margin-top: 5px;
-    padding: 0.4rem 0.8rem;
+    padding: 0.5rem 1rem;
     background: rgba(255, 0, 0, 0.2);
     border: 1px solid rgba(255, 0, 0, 0.3);
     color: #ff5555;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 0.8rem;
     transition: all 0.3s;
@@ -826,6 +1163,7 @@ h1 {
 
 .remove-texture-btn:hover {
     background: rgba(255, 0, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 .text-with-texture {
@@ -840,27 +1178,32 @@ h1 {
 /* Адаптация для очень маленьких экранов */
 @media (max-width: 400px) {
     h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     
     .info-block h2 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
     
     .modal-content {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     
     .tab-btn {
-        padding: 0.6rem 0.8rem;
+        padding: 0.7rem 1rem;
         font-size: 0.8rem;
     }
 
     .logo-container {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+    }
+    
+    .modal-btn {
+        min-width: auto;
     }
 }
-
-
-
