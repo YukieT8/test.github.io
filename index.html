@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Preloader Start -->
+    <div id="preloader">
+        <div class="preloader-logo">
+            <span></span>
+        </div>
+        <div class="preloader-text">yukie</div>
+    </div>
+    <!-- Preloader End -->
+
     <!-- Видео фон -->
     <video id="videoBackground" autoplay muted loop playsinline></video>
     
@@ -157,7 +166,18 @@
     </div>
 
     <script>
-        // Конфигурация Firebase
+        // Preloader logic
+        window.onload = function() {
+            const preloader = document.getElementById('preloader');
+            // Add a longer delay for the new animation to complete
+            setTimeout(() => {
+                if (preloader) {
+                    preloader.classList.add('hidden');
+                }
+            }, 4500); // 4.5 seconds delay
+        };
+
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDaQR0g1_T_0AEZRYWMCyFKF7jFI5MiLCs",
             authDomain: "sample-firebase-ai-app-4c73c.firebaseapp.com",
@@ -168,13 +188,13 @@
             appId: "1:125953273471:web:46ea159200d32ec529d94a"
         };
 
-        // Инициализация Firebase
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         document.addEventListener('DOMContentLoaded', () => {
             const starsContainer = document.getElementById('starsContainer');
-            const starCount = 30; // Уменьшено для мобильных устройств
+            const starCount = 30; 
             
             for (let i = 0; i < starCount; i++) {
                 createStar();
@@ -184,14 +204,14 @@
                 const star = document.createElement('div');
                 star.className = 'star-particle';
                 
-                const size = Math.random() * 2 + 1; // Уменьшен размер звезд
+                const size = Math.random() * 2 + 1;
                 const startX = Math.random() * window.innerWidth;
                 const startY = Math.random() * window.innerHeight;
-                const endX = (Math.random() - 0.5) * 200; // Уменьшена амплитуда движения
+                const endX = (Math.random() - 0.5) * 200;
                 const endY = (Math.random() - 0.5) * 200;
-                const duration = 3 + Math.random() * 5; // Уменьшена длительность
+                const duration = 3 + Math.random() * 5;
                 const delay = Math.random() * 3;
-                const opacity = 0.2 + Math.random() * 0.6; // Уменьшена прозрачность
+                const opacity = 0.2 + Math.random() * 0.6;
                 
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
@@ -214,7 +234,7 @@
             loadSavedData();
         });
 
-        // Основные элементы DOM
+        // DOM Elements
         const secretBtn = document.getElementById('secretBtn');
         const modalOverlay = document.getElementById('modalOverlay');
         const submitCode = document.getElementById('submitCode');
@@ -223,51 +243,51 @@
         const favoriteBtn = document.getElementById('favoriteBtn');
         const likeCounter = document.getElementById('likeCounter');
         
-        // Элементы редактирования
+        // Edit Elements
         const editTitle = document.getElementById('editTitle');
         const editInfoTitle = document.getElementById('editInfoTitle');
         const editInfoText = document.getElementById('editInfoText');
         const saveChanges = document.getElementById('saveChanges');
         const cancelEdit = document.getElementById('cancelEdit');
         
-        // Элементы отображения
+        // Display Elements
         const mainTitle = document.getElementById('mainTitle');
         const infoTitle = document.getElementById('infoTitle');
         const infoText = document.getElementById('infoText');
         const linksList = document.getElementById('linksList');
         const logoImg = document.getElementById('logoImg');
         
-        // Элементы логотипа
+        // Logo Elements
         const logoUpload = document.getElementById('logoUpload');
         const logoPreview = document.getElementById('logoPreview');
         const removeLogoBtn = document.getElementById('removeLogoBtn');
         
-        // Элементы стилей
+        // Style Elements
         const fontFamily = document.getElementById('fontFamily');
         const boldBtn = document.getElementById('boldBtn');
         const italicBtn = document.getElementById('italicBtn');
         const underlineBtn = document.getElementById('underlineBtn');
         const strikeBtn = document.getElementById('strikeBtn');
         
-        // Элементы вкладок
+        // Tab Elements
         const tabBtns = document.querySelectorAll('.tab-btn');
         const editTab = document.getElementById('editTab');
         const linksTab = document.getElementById('linksTab');
         const codeInputContainer = document.getElementById('codeInputContainer');
         const tabsContainer = document.getElementById('tabsContainer');
         
-        // Элементы управления кнопками
+        // Link Button Elements
         const linksContainer = document.getElementById('linksContainer');
         const addLinkBtn = document.getElementById('addLinkBtn');
         const saveLinks = document.getElementById('saveLinks');
         const cancelLinks = document.getElementById('cancelLinks');
         
-        // Элементы текстуры текста
+        // Texture Elements
         const textureUpload = document.getElementById('textureUpload');
         const texturePreview = document.getElementById('texturePreview');
         const removeTextureBtn = document.getElementById('removeTextureBtn');
         
-        // Элементы видео-фона
+        // Video BG Elements
         const videoBackground = document.getElementById('videoBackground');
         const videoBgUrlInput = document.getElementById('videoBgUrl');
         const testVideoBtn = document.getElementById('testVideoBtn');
@@ -288,21 +308,21 @@
         let currentLogo = '';
         let currentVideoBg = '';
 
-        // Функция для установки видео-фона
+        // Set video background
         function setVideoBackground(url) {
             if (url) {
                 videoBackground.src = url;
                 videoBackground.style.display = 'block';
                 
                 videoBackground.onerror = () => {
-                    console.error('Ошибка загрузки видео');
-                    alert('Не удалось загрузить видео. Проверьте ссылку и поддерживаемые форматы (MP4).');
+                    console.error('Video loading error');
+                    alert('Failed to load video. Please check the link and supported formats (MP4).');
                     videoBackground.style.display = 'none';
                 };
                 
                 videoBackground.oncanplay = () => {
                     videoBackground.play().catch(e => {
-                        console.log('Автовоспроизведение заблокировано:', e);
+                        console.log('Autoplay blocked:', e);
                     });
                 };
             } else {
@@ -311,7 +331,7 @@
             }
         }
 
-        // Загрузка данных
+        // Load saved data
         function loadSavedData() {
             database.ref('pageData').once('value')
                 .then(snapshot => {
@@ -327,7 +347,7 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Ошибка загрузки данных:', error);
+                    console.error('Data loading error:', error);
                     const localData = localStorage.getItem('yukiePageData');
                     if (localData) {
                         applyChanges(JSON.parse(localData));
@@ -337,19 +357,19 @@
             loadLikeCounter();
         }
 
-        // Сохранение данных в Firebase
+        // Save data to Firebase
         function saveDataToFirebase(data) {
             database.ref('pageData').set(data)
                 .then(() => {
-                    console.log('Данные успешно сохранены в Firebase');
+                    console.log('Data successfully saved to Firebase');
                     localStorage.setItem('yukiePageData', JSON.stringify(data));
                 })
                 .catch(error => {
-                    console.error('Ошибка сохранения в Firebase:', error);
+                    console.error('Error saving to Firebase:', error);
                 });
         }
 
-        // Применение изменений
+        // Apply changes
         function applyChanges(data) {
             if (data.title) mainTitle.textContent = data.title;
             if (data.infoTitle) infoTitle.textContent = data.infoTitle;
@@ -399,7 +419,7 @@
             }
         }
 
-        // Применение стилей шрифта
+        // Apply font styles
         function applyFontStyles(styles) {
             document.body.style.fontFamily = styles.fontFamily;
             
@@ -422,7 +442,7 @@
             });
         }
 
-        // Отрисовка кнопок
+        // Render link buttons
         function renderLinks() {
             linksList.innerHTML = '';
             currentLinks.forEach((link, index) => {
@@ -441,7 +461,7 @@
             });
         }
 
-        // Отрисовка формы редактирования кнопок
+        // Render links editor form
         function renderLinksEditor() {
             linksContainer.innerHTML = '';
             currentLinks.forEach((link, index) => {
@@ -449,24 +469,24 @@
                 linkItem.className = 'link-item';
                 linkItem.innerHTML = `
                     <div class="input-group">
-                        <label>Текст кнопки:</label>
-                        <input type="text" class="link-text" value="${link.text}" placeholder="Текст кнопки">
+                        <label>Button Text:</label>
+                        <input type="text" class="link-text" value="${link.text}" placeholder="Button Text">
                     </div>
                     <div class="input-group">
-                        <label>Ссылка:</label>
+                        <label>URL:</label>
                         <input type="text" class="link-url" value="${link.url}" placeholder="https://example.com">
                     </div>
                     <div class="input-group">
-                        <label>URL иконки (необязательно):</label>
+                        <label>Icon URL (optional):</label>
                         <input type="text" class="link-icon" value="${link.icon || ''}" placeholder="https://example.com/icon.png">
                     </div>
-                    <button class="remove-link-btn" data-index="${index}">Удалить</button>
+                    <button class="remove-link-btn" data-index="${index}">Delete</button>
                 `;
                 linksContainer.appendChild(linkItem);
             });
         }
 
-        // Загрузка логотипа
+        // Logo upload
         logoUpload.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -479,21 +499,19 @@
             }
         });
 
-        // Удаление логотипа
+        // Remove logo
         removeLogoBtn.addEventListener('click', function() {
             currentLogo = '';
             logoPreview.src = '';
             logoUpload.value = '';
         });
 
-        // Загрузка текстуры (фото/гиф/видео)
+        // Texture upload (image/gif/video)
         textureUpload.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
 
-            // Проверяем тип файла
             if (file.type.startsWith('image/')) {
-                // Обработка изображений (JPG, PNG, GIF)
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     currentFontStyles.texture = event.target.result;
@@ -502,7 +520,6 @@
                 };
                 reader.readAsDataURL(file);
             } else if (file.type.startsWith('video/')) {
-                // Обработка видео (MP4)
                 const video = document.createElement('video');
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
@@ -515,15 +532,11 @@
                 video.onloadedmetadata = function() {
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
-                    
-                    // Создаем миниатюру из первого кадра
                     video.currentTime = 0;
                     
                     video.onseeked = function() {
                         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                         const thumbnail = canvas.toDataURL('image/png');
-                        
-                        // Создаем видео-текстуру
                         const videoTexture = document.createElement('video');
                         videoTexture.src = URL.createObjectURL(file);
                         videoTexture.muted = true;
@@ -531,29 +544,25 @@
                         videoTexture.playsInline = true;
                         videoTexture.style.display = 'none';
                         document.body.appendChild(videoTexture);
+                        videoTexture.play().catch(e => console.log('Autoplay blocked:', e));
                         
-                        // Запускаем видео
-                        videoTexture.play().catch(e => console.log('Автовоспроизведение заблокировано:', e));
-                        
-                        // Обновляем текстуру каждые 100мс
                         setInterval(() => {
                             ctx.drawImage(videoTexture, 0, 0, canvas.width, canvas.height);
                             currentFontStyles.texture = canvas.toDataURL('image/png');
                             applyFontStyles(currentFontStyles);
                         }, 100);
                         
-                        // Показываем превью
                         texturePreview.style.backgroundImage = `url(${thumbnail})`;
                     };
                     
-                    video.currentTime = 0.1; // Перематываем немного вперед для корректного отображения
+                    video.currentTime = 0.1;
                 };
             } else {
-                alert('Пожалуйста, выберите изображение (JPG, PNG, GIF) или видео (MP4)');
+                alert('Please select an image (JPG, PNG, GIF) or video (MP4)');
             }
         });
 
-        // Удаление текстуры
+        // Remove texture
         removeTextureBtn.addEventListener('click', function() {
             currentFontStyles.texture = '';
             texturePreview.style.backgroundImage = 'none';
@@ -561,24 +570,24 @@
             applyFontStyles(currentFontStyles);
         });
 
-        // Проверка видео-фона
+        // Test video background
         testVideoBtn.addEventListener('click', function() {
             const testUrl = videoBgUrlInput.value.trim();
             if (testUrl) {
                 setVideoBackground(testUrl);
             } else {
-                alert('Введите ссылку на видео');
+                alert('Enter a video link');
             }
         });
 
-        // Удаление видео-фона
+        // Remove video background
         removeVideoBtn.addEventListener('click', function() {
             videoBgUrlInput.value = '';
             currentVideoBg = '';
             setVideoBackground('');
         });
 
-        // Обработчики событий
+        // Event Handlers
         secretBtn.addEventListener('click', () => {
             modalOverlay.classList.add('active');
             secretCodeInput.focus();
@@ -609,7 +618,7 @@
                     texturePreview.style.backgroundImage = 'none';
                 }
             } else {
-                alert('Неверный код!');
+                alert('Incorrect code!');
                 secretCodeInput.value = '';
             }
         });
@@ -630,7 +639,7 @@
             saveDataToFirebase(newData);
             applyChanges(newData);
             closeModal();
-            alert('Изменения сохранены! Они будут видны на всех устройствах.');
+            alert('Changes saved! They will be visible on all devices.');
         });
         
         cancelEdit.addEventListener('click', closeModal);
@@ -639,7 +648,7 @@
             try {
                 window.external.AddFavorite(location.href, document.title);
             } catch (e) {
-                alert('Нажмите Ctrl+D чтобы добавить страницу в закладки');
+                alert('Press Ctrl+D to bookmark this page');
             }
             
             incrementLikeCounter();
@@ -669,10 +678,10 @@
             currentFontStyles.fontFamily = fontFamily.value;
         });
 
-        // Управление кнопками
+        // Link button management
         addLinkBtn.addEventListener('click', () => {
             currentLinks.push({
-                text: 'Новая кнопка',
+                text: 'New Button',
                 url: 'https://example.com',
                 icon: ''
             });
@@ -718,14 +727,14 @@
             saveDataToFirebase(newData);
             renderLinks();
             document.querySelector('.tab-btn[data-tab="edit"]').click();
-            alert('Кнопки сохранены!');
+            alert('Buttons saved!');
         });
 
         cancelLinks.addEventListener('click', () => {
             document.querySelector('.tab-btn[data-tab="edit"]').click();
         });
 
-        // Переключение вкладок
+        // Tab switching
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tabId = btn.dataset.tab;
@@ -752,7 +761,7 @@
             secretCodeInput.value = '';
         }
         
-        // Счетчик избранного (синхронизируется через Firebase)
+        // Like counter (synced via Firebase)
         function incrementLikeCounter() {
             database.ref('likeCounter').transaction(currentValue => {
                 return (currentValue || 0) + 1;
@@ -779,21 +788,21 @@
             likeCounter.textContent = formattedCount;
         }
 
-        // Закрытие модального окна при клике вне его
+        // Close modal on outside click
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) {
                 closeModal();
             }
         });
         
-        // Закрытие модального окна по ESC
+        // Close modal with ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
             }
         });
 
-        // Меню форматирования текста
+        // Text format menu
         document.addEventListener('selectionchange', () => {
             const selection = window.getSelection();
             if (!selection.isCollapsed) {
@@ -808,7 +817,7 @@
             }
         });
 
-        // Обработчики кнопок форматирования текста
+        // Text format button handlers
         document.querySelectorAll('.text-format-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const style = btn.dataset.style;
@@ -819,3 +828,6 @@
     </script>
 </body>
 </html>
+
+
+
